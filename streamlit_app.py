@@ -1,14 +1,17 @@
 import streamlit as st
-import subprocess
+import importlib
 
 st.sidebar.title("Navigazione")
 pagina = st.sidebar.radio("Seleziona una pagina", ["Home", "Analisi", "Matrix"])
 
-if pagina == "Home":
-    st.title("Benvenuto nella Web App!")
-elif pagina == "Analisi":
-    st.title("Analisi dei dati")
-    subprocess.run(["python", "pages/analisi.py"])
-elif pagina == "Matrix":
-    st.title("Matrix")
-    subprocess.run(["python", "pages/matrix.py"])
+# Mappatura delle pagine
+pagine_dict = {
+    "Home": "pages.home",
+    "Analisi": "pages.analisi",
+    "Matrix": "pages.matrix"
+}
+
+# Carica la pagina selezionata dinamicamente
+if pagina in pagine_dict:
+    pagina_modulo = importlib.import_module(pagine_dict[pagina])
+    pagina_modulo.show()
