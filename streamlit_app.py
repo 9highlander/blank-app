@@ -10,5 +10,5 @@ elif pagina == "Analisi":
     st.title("Analisi dei dati")
     subprocess.run(["python", "pages/analisi.py"])
 elif pagina == "Matrix":
-    st.title("Report dettagliato")
+    st.title("Matrix")
     subprocess.run(["python", "pages/matrix.py"])
