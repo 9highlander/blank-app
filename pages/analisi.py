@@ -1,18 +1,31 @@
 import streamlit as st
+import pandas as pd
 
 def show():
-    st.title("Analisi dei Dati")
-    st.write("Qui puoi caricare e analizzare i tuoi dati.")
+    st.title("Analisi del Dataset CSV 📊")
 
-# Caricamento file CSV
-uploaded_file = st.file_uploader("Carica un file CSV", type=["csv"])
+    # Caricamento del file CSV
+    uploaded_file = st.file_uploader("Carica un file CSV", type=["csv"])
 
-if uploaded_file:
-    df = pd.read_csv(uploaded_file)
-    st.write("Anteprima dei dati:")
-    st.dataframe(df)
+    if uploaded_file is not None:
+        # Lettura del dataset
+        df = pd.read_csv(uploaded_file)
 
-    # Esegui un'analisi esterna (ipotizziamo un altro script Python)
-    if st.button("Esegui Analisi"):
-        subprocess.run(["python", "scripts/analisi_esterna.py"])
-        st.success("Analisi completata!")
+        # Mostrare una panoramica dei dati
+        st.subheader("Anteprima del Dataset")
+        st.write(df.head())
+
+        # Informazioni generali
+        st.subheader("Informazioni sul Dataset")
+        st.write(df.describe())
+
+        # Visualizzazione delle colonne
+        st.subheader("Colonne disponibili")
+        st.write(df.columns)
+
+        # Analisi interattiva
+        col_selezionata = st.selectbox("Seleziona una colonna per la distribuzione", df.columns)
+        if col_selezionata:
+            st.subheader(f"Distribuzione dei valori - {col_selezionata}")
+            st.hist_chart(df[col_selezionata])
+
